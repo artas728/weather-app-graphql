@@ -1,7 +1,7 @@
 import datetime
 import csv
 import aiohttp
-from app.models import HistoryWeather
+from typing import Dict
 
 class WeatherBitProvider:
     url = "https://api.weatherbit.io/v2.0/history/daily"
@@ -17,7 +17,7 @@ class WeatherBitProvider:
             self.cities_filename = self.default_cities_filename
         self._upload_cities_file(self.cities_filename)
 
-    async def get_weather_data(self, city: str, date: str) -> HistoryWeather:
+    async def get_weather_data(self, city: str, date: str) -> Dict:
         self._validate_input_params(city, date)
         city_id = self._get_city_id(city)
         params = {
@@ -28,15 +28,14 @@ class WeatherBitProvider:
         }
         try:
             if not hasattr(self, "session"):
-                self.session = self._create_http_session()
+                await self._create_http_session()
             async with self.session.get(self.url, params=params) as resp:
                 self._validate_response(resp)
-                json = await resp.json()
-                parsed = self._parse_json(json)
-                return HistoryWeather(city=city, date=date, **parsed)
+                parsed = self._parse_json(await resp.json())
+                return dict(city=city, date=date, **parsed)
         except Exception as e:
             print(f"Error getting weather data: {e}")
-            return {"error": "Failed! It seems we have problem with weather provider"}
+            return {"error": f"Failed! It seems we have problem with weather provider"}
 
     def _upload_cities_file(self, cities_filename):
         with open(cities_filename, 'r') as csvfile:

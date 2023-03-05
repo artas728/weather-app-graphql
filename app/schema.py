@@ -7,11 +7,11 @@ from app.resolvers import get_weather, get_all_favourites, save_favorite
 @strawberry.type
 class Query:
     @strawberry.field
-    async def weather(city: str, date: str) -> HistoryWeatherType:
+    async def weather(self, city: str, date: str) -> HistoryWeatherType:
         return await get_weather(city=city, date=date)
 
     @strawberry.field
-    async def favorites() -> typing.List[HistoryWeatherType]:
+    async def favorites(self) -> typing.List[HistoryWeatherType]:
         return await get_all_favourites()
 
 

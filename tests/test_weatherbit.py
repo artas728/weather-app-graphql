@@ -10,10 +10,10 @@ provider = connector.get_provider('weatherbit', api_key="3a290c76151141ff8de61e3
 @pytest.mark.asyncio
 async def test_get_weather_data():
     result = await provider.get_weather_data(city="London", date="2020-01-01")
-    assert result.city == "London"
-    assert result.date == "2020-01-01"
-    assert -20.0 <= result.temperature <= 100.0
-    assert 20.0 <= result.humidity <= 100.0
+    assert result["city"] == "London"
+    assert result["date"] == "2020-01-01"
+    assert -20.0 <= result["temperature"] <= 100.0
+    assert 20.0 <= result["humidity"] <= 100.0
 
 
 @pytest.mark.asyncio
@@ -31,8 +31,8 @@ async def test_get_weather_data_wrong_date():
 @pytest.mark.asyncio
 async def test_get_weather_data_wrong_city_name():
     with pytest.raises(Exception) as e:
-        await provider.get_weather_data(city="Lond", date="2020-01-01")
-    assert str(e.value) == "City Lond not found"
+        await provider.get_weather_data(city="Qwerty", date="2020-01-01")
+    assert str(e.value) == "City Qwerty not found"
 
 # TODO
 # @pytest.mark.asyncio
