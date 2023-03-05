@@ -24,7 +24,7 @@ async def test_save_favorite():
 
 @pytest.mark.asyncio
 async def test_get_all_favourites():
-    result = await db_connector.get_all_favourites()
+    result = await db_connector.get_all_favorites()
     assert len(result) == 1
     assert result[0]["city"] == "London"
     assert result[0]["date"] == "2020-01-01"

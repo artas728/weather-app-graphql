@@ -38,7 +38,7 @@ class DBConnector:
             HistoryWeatherDB.date == history_weather.date
         )
 
-    async def get_all_favourites(self):
+    async def get_all_favorites(self):
         return [item.dict() for item in await self.engine.find(HistoryWeatherDB)]
 
 

@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 import httpx
 from app.main import app

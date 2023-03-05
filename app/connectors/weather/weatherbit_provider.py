@@ -35,7 +35,7 @@ class WeatherBitProvider:
                 return dict(city=city, date=date, **parsed)
         except Exception as e:
             print(f"Error getting weather data: {e}")
-            return {"error": f"Failed! It seems we have problem with weather provider"}
+            raise Exception(f"Failed! It seems we have problem with weather provider: {e}")
 
     def _upload_cities_file(self, cities_filename):
         with open(cities_filename, 'r') as csvfile:
