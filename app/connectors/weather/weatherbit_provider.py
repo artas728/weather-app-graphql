@@ -1,8 +1,6 @@
-import asyncio
 import datetime
 import csv
 import aiohttp
-import nest_asyncio
 from app.models import HistoryWeather
 
 class WeatherBitProvider:
