@@ -1,13 +1,7 @@
 import asyncio
-
 import pytest
 import strawberry
 from app.schema import Query, Mutation
-from app.connectors.db.connector import get_db_connection
-
-
-db_connector = get_db_connection()
-db_connector.engine.client.get_io_loop = asyncio.get_event_loop
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
 
@@ -77,22 +71,6 @@ async def test_graphql_query_wrong_city_name():
         """
     )
     assert result.errors[0].message == "City Lond not found"
-
-# @pytest.mark.asyncio
-# async def test_graphql_query_wrong_api_key():
-#     result = await schema.execute(
-#         """
-#         query {
-#             weather(city: "London", date: "2020-01-01") {
-#                 city
-#                 date
-#                 temperature
-#                 humidity
-#             }
-#         }
-#         """
-#     )
-#     assert result.errors[0].message == "Invalid response from API. Code: 401,  Reason: Unauthorized"
 
 @pytest.mark.asyncio
 async def test_graphql_mutation():
